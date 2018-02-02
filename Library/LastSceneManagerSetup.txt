@@ -1,0 +1,4 @@
+sceneSetups:
+- path: Assets/ToLua/Examples/18_Bundle/TesetAssetBundle.unity
+  isLoaded: 1
+  isActive: 1
