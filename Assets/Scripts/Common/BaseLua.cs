@@ -8,7 +8,7 @@ public class BaseLua : MonoBehaviour {
     private string data = null;
     private bool initialize = false;
     private Transform trans = null;
-    private LuaState luaSate = null;
+    private LuaState lua = null;
     private AssetBundle bundle = null;
     private List<LuaFunction> buttons = new List<LuaFunction>();
 
@@ -16,21 +16,23 @@ public class BaseLua : MonoBehaviour {
     {
         get
         {
-            if(luaSate == null)
+            if(lua == null)
             {
-                luaSate = new LuaState();
+                lua = ioo.gameManager.LuaIns;
             }
-            return luaSate;
+            return lua;
         }
     }
     // Use this for initialization
     void Start()
     {
         trans = transform;
-        LuaState lua = Lua;
-        lua.Start();
-        lua[trans.name + ".transform"] = transform;
-        lua[trans.name + ".gameObject"] = gameObject;
+        if(lua != null)
+        {
+            lua[trans.name + ".transform"] = transform;
+            lua[trans.name + ".gameObject"] = gameObject;
+        }
+       
         CallMethod("Start");
 
     }
@@ -121,9 +123,7 @@ public class BaseLua : MonoBehaviour {
             bundle = null;
         }
         ClearClick();
-        luaSate.CheckTop();
-        luaSate.Dispose();
-        luaSate = null;
+        lua = null;
         Util.ClearMemory();
         Debug.Log(name + "was destroy");
     }
