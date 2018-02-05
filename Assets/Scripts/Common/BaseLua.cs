@@ -12,7 +12,7 @@ public class BaseLua : MonoBehaviour {
     private AssetBundle bundle = null;
     private List<LuaFunction> buttons = new List<LuaFunction>();
 
-    protected LuaState Lua
+    protected LuaState LuaMgr
     {
         get
         {
@@ -27,10 +27,10 @@ public class BaseLua : MonoBehaviour {
     void Start()
     {
         trans = transform;
-        if(lua != null)
+        if(LuaMgr != null)
         {
-            lua[trans.name + ".transform"] = transform;
-            lua[trans.name + ".gameObject"] = gameObject;
+            LuaMgr[trans.name + ".transform"] = transform;
+            LuaMgr[trans.name + ".gameObject"] = gameObject;
         }
        
         CallMethod("Start");
@@ -90,7 +90,7 @@ public class BaseLua : MonoBehaviour {
     {
         string funcName = name + "." + func;
         funcName.Replace("(Clone)", "");
-        LuaFunction function = Lua.GetFunction(funcName);
+        LuaFunction function = LuaMgr.GetFunction(funcName);
         object[] result = function.LazyCall(null);
         function.Dispose();
         return result;
@@ -99,7 +99,7 @@ public class BaseLua : MonoBehaviour {
     {
         string funcName = name + "." + func;
         funcName.Replace("(Clone)", "");
-        LuaFunction function = Lua.GetFunction(funcName);
+        LuaFunction function = LuaMgr.GetFunction(funcName);
         object[] result = function.LazyCall(go);
         function.Dispose();
         return result;
@@ -109,7 +109,7 @@ public class BaseLua : MonoBehaviour {
     {
         string funcName = name + "." + func;
         funcName.Replace("(Clone)", "");
-        LuaFunction function = Lua.GetFunction(funcName);
+        LuaFunction function = LuaMgr.GetFunction(funcName);
         object[] result = function.LazyCall(key, buffer);
         function.Dispose();
         return result;

@@ -6,6 +6,7 @@ using LuaInterface;
 using System.IO;
 using System;
 using ICSharpCode.SharpZipLib.Zip;
+using UnityEngine.SceneManagement;
 
 public class GameManager : BaseLua {
 
@@ -20,7 +21,7 @@ public class GameManager : BaseLua {
 
     void Init()
     {
-        //InitGUI();
+        InitGUI();
         DontDestroyOnLoad(gameObject);
         Util.Add<PanelManager>(gameObject);
         Util.Add<MusicManager>(gameObject);
@@ -33,6 +34,17 @@ public class GameManager : BaseLua {
         ZipConstants.DefaultCodePage = 65001;
         Screen.sleepTimeout = SleepTimeout.NeverSleep;
         Application.targetFrameRate = Const.GameFrameRate;
+    }
+
+    public void InitGUI()
+    {
+        string name = "GUI";
+        GameObject gui = GameObject.Find("name");
+        if (gui != null)
+            return;
+        GameObject prefab = ioo.LoadPrefab(name);
+        gui = Instantiate(prefab) as GameObject;
+        gui.name = name;
     }
 
     //资源获取
@@ -203,6 +215,7 @@ public class GameManager : BaseLua {
     {
         LuaIns = new LuaState();
         LuaIns.Start();
+        LuaBinder.Bind(LuaIns);
         LuaIns.DoFile("logic/game"); //加载游戏
         LuaIns.DoFile("logic/network"); //加载网络
         ioo.networkManager.OnInit(); //初始化网络
@@ -214,7 +227,7 @@ public class GameManager : BaseLua {
             if (string.IsNullOrEmpty(name))
                 continue;
             name += "Panel";
-            Lua.DoFile("logic/" + name);
+            LuaMgr.DoFile("logic/" + name);
             Debug.LogWarning("LoadLua---->>>>" + name + ".lua");
         }
         CallMethod("OnInitOK");
@@ -226,7 +239,10 @@ public class GameManager : BaseLua {
         GUI.Label(new Rect(10, 120, 960, 50), message);
     }
 
-
+    public void OnInitScene()
+    {
+        Debug.Log("OnInitScene-->>" + SceneManager.GetActiveScene().name);
+    }
 
     void OnDestroy()
     {

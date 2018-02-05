@@ -1,10 +1,14 @@
---主入口函数。从这里开始lua逻辑
-function Main()					
-	print("logic start")	 		
+GameManager = {};
+function GameManager.LuaScriptPanel()
+	return 'Prompt', 'Message';
 end
 
---场景切换通知
-function OnLevelWasLoaded(level)
-	collectgarbage("collect")
-	Time.timeSinceLevelLoad = 0
+function GameManager.OnInitOK()
+	Framework.ioo.panelManager:CreatePanel("Prompt")
+end
+
+function GameManager.Start()
+end
+
+function GameManager.OnClick(go)
 end

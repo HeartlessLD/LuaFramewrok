@@ -13,4 +13,9 @@ public class NetworkManager : BaseLua {
 	void Update () {
 		
 	}
+
+    public void OnInit()
+    {
+
+    }
 }

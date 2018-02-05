@@ -5,6 +5,7 @@ using LuaInterface;
 
 using BindType = ToLuaMenu.BindType;
 using System.Reflection;
+using Framework;
 
 public static class CustomSettings
 {
@@ -55,7 +56,10 @@ public static class CustomSettings
         //-------------------------------------------------------------------        
                         
         _GT(typeof(Debugger)).SetNameSpace(null),          
-
+        _GT(typeof(ioo)),
+        _GT(typeof(PanelManager)),
+        _GT(typeof(ResourceManager)),
+        _GT(typeof(BaseLua)),
 #if USING_DOTWEENING
         _GT(typeof(DG.Tweening.DOTween)),
         _GT(typeof(DG.Tweening.Tween)).SetBaseType(typeof(System.Object)).AddExtendType(typeof(DG.Tweening.TweenExtensions)),
